@@ -1,0 +1,321 @@
+
+TinyPWMNecklace.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000168  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000008  00800060  00000168  000001dc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001e4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000214  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000048  00000000  00000000  00000250  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000685  00000000  00000000  00000298  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000523  00000000  00000000  0000091d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002d5  00000000  00000000  00000e40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000c4  00000000  00000000  00001118  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000368  00000000  00000000  000011dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001b1  00000000  00000000  00001544  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000038  00000000  00000000  000016f5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0e c0       	rjmp	.+28     	; 0x1e <__ctors_end>
+   2:	20 c0       	rjmp	.+64     	; 0x44 <__bad_interrupt>
+   4:	1f c0       	rjmp	.+62     	; 0x44 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__vector_3>
+   8:	2b c0       	rjmp	.+86     	; 0x60 <__vector_4>
+   a:	1c c0       	rjmp	.+56     	; 0x44 <__bad_interrupt>
+   c:	1b c0       	rjmp	.+54     	; 0x44 <__bad_interrupt>
+   e:	1a c0       	rjmp	.+52     	; 0x44 <__bad_interrupt>
+  10:	19 c0       	rjmp	.+50     	; 0x44 <__bad_interrupt>
+  12:	18 c0       	rjmp	.+48     	; 0x44 <__bad_interrupt>
+  14:	17 c0       	rjmp	.+46     	; 0x44 <__bad_interrupt>
+  16:	16 c0       	rjmp	.+44     	; 0x44 <__bad_interrupt>
+  18:	15 c0       	rjmp	.+42     	; 0x44 <__bad_interrupt>
+  1a:	14 c0       	rjmp	.+40     	; 0x44 <__bad_interrupt>
+  1c:	13 c0       	rjmp	.+38     	; 0x44 <__bad_interrupt>
+
+0000001e <__ctors_end>:
+  1e:	11 24       	eor	r1, r1
+  20:	1f be       	out	0x3f, r1	; 63
+  22:	cf e5       	ldi	r28, 0x5F	; 95
+  24:	d2 e0       	ldi	r29, 0x02	; 2
+  26:	de bf       	out	0x3e, r29	; 62
+  28:	cd bf       	out	0x3d, r28	; 61
+
+0000002a <__do_copy_data>:
+  2a:	10 e0       	ldi	r17, 0x00	; 0
+  2c:	a0 e6       	ldi	r26, 0x60	; 96
+  2e:	b0 e0       	ldi	r27, 0x00	; 0
+  30:	e8 e6       	ldi	r30, 0x68	; 104
+  32:	f1 e0       	ldi	r31, 0x01	; 1
+  34:	02 c0       	rjmp	.+4      	; 0x3a <__do_copy_data+0x10>
+  36:	05 90       	lpm	r0, Z+
+  38:	0d 92       	st	X+, r0
+  3a:	a8 36       	cpi	r26, 0x68	; 104
+  3c:	b1 07       	cpc	r27, r17
+  3e:	d9 f7       	brne	.-10     	; 0x36 <__do_copy_data+0xc>
+  40:	55 d0       	rcall	.+170    	; 0xec <main>
+  42:	90 c0       	rjmp	.+288    	; 0x164 <_exit>
+
+00000044 <__bad_interrupt>:
+  44:	dd cf       	rjmp	.-70     	; 0x0 <__vectors>
+
+00000046 <__vector_3>:
+        */
+    }
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+  46:	1f 92       	push	r1
+  48:	0f 92       	push	r0
+  4a:	0f b6       	in	r0, 0x3f	; 63
+  4c:	0f 92       	push	r0
+  4e:	11 24       	eor	r1, r1
+    if (!((TIFR >> TOV1) & 1)) PORTB |= 1 << PB3;
+  50:	08 b6       	in	r0, 0x38	; 56
+  52:	02 fe       	sbrs	r0, 2
+  54:	c3 9a       	sbi	0x18, 3	; 24
+}
+  56:	0f 90       	pop	r0
+  58:	0f be       	out	0x3f, r0	; 63
+  5a:	0f 90       	pop	r0
+  5c:	1f 90       	pop	r1
+  5e:	18 95       	reti
+
+00000060 <__vector_4>:
+
+ISR(TIMER1_OVF_vect)
+{
+  60:	1f 92       	push	r1
+  62:	0f 92       	push	r0
+  64:	0f b6       	in	r0, 0x3f	; 63
+  66:	0f 92       	push	r0
+  68:	11 24       	eor	r1, r1
+    PORTB &= ~(1 << PB3);
+  6a:	c3 98       	cbi	0x18, 3	; 24
+}
+  6c:	0f 90       	pop	r0
+  6e:	0f be       	out	0x3f, r0	; 63
+  70:	0f 90       	pop	r0
+  72:	1f 90       	pop	r1
+  74:	18 95       	reti
+
+00000076 <_Z10delay_loopv>:
+    delay_loop();
+
+}
+
+void delay_loop(void)
+{
+  76:	cf 93       	push	r28
+  78:	df 93       	push	r29
+  7a:	00 d0       	rcall	.+0      	; 0x7c <_Z10delay_loopv+0x6>
+  7c:	cd b7       	in	r28, 0x3d	; 61
+  7e:	de b7       	in	r29, 0x3e	; 62
+    volatile unsigned int del = 200;
+  80:	88 ec       	ldi	r24, 0xC8	; 200
+  82:	90 e0       	ldi	r25, 0x00	; 0
+  84:	9a 83       	std	Y+2, r25	; 0x02
+  86:	89 83       	std	Y+1, r24	; 0x01
+    
+    while(del--);
+  88:	89 81       	ldd	r24, Y+1	; 0x01
+  8a:	9a 81       	ldd	r25, Y+2	; 0x02
+  8c:	9c 01       	movw	r18, r24
+  8e:	21 50       	subi	r18, 0x01	; 1
+  90:	31 09       	sbc	r19, r1
+  92:	3a 83       	std	Y+2, r19	; 0x02
+  94:	29 83       	std	Y+1, r18	; 0x01
+  96:	89 2b       	or	r24, r25
+  98:	b9 f7       	brne	.-18     	; 0x88 <_Z10delay_loopv+0x12>
+}
+  9a:	0f 90       	pop	r0
+  9c:	0f 90       	pop	r0
+  9e:	df 91       	pop	r29
+  a0:	cf 91       	pop	r28
+  a2:	08 95       	ret
+
+000000a4 <_Z5shiftii>:
+{
+    PORTB &= ~(1 << PB3);
+}
+
+void shift(int p_old, int p_new)
+{
+  a4:	ef 92       	push	r14
+  a6:	ff 92       	push	r15
+  a8:	0f 93       	push	r16
+  aa:	1f 93       	push	r17
+  ac:	cf 93       	push	r28
+  ae:	c1 e0       	ldi	r28, 0x01	; 1
+    int i;
+    for (i = 1; i < 256; i++) {
+        *brite[p_old] = i;
+  b0:	88 0f       	add	r24, r24
+  b2:	99 1f       	adc	r25, r25
+  b4:	9c 01       	movw	r18, r24
+  b6:	20 5a       	subi	r18, 0xA0	; 160
+  b8:	3f 4f       	sbci	r19, 0xFF	; 255
+  ba:	79 01       	movw	r14, r18
+        *brite[p_new] = 255 - i;
+  bc:	66 0f       	add	r22, r22
+  be:	77 1f       	adc	r23, r23
+  c0:	8b 01       	movw	r16, r22
+  c2:	00 5a       	subi	r16, 0xA0	; 160
+  c4:	1f 4f       	sbci	r17, 0xFF	; 255
+
+void shift(int p_old, int p_new)
+{
+    int i;
+    for (i = 1; i < 256; i++) {
+        *brite[p_old] = i;
+  c6:	d7 01       	movw	r26, r14
+  c8:	ed 91       	ld	r30, X+
+  ca:	fc 91       	ld	r31, X
+  cc:	c0 83       	st	Z, r28
+        *brite[p_new] = 255 - i;
+  ce:	d8 01       	movw	r26, r16
+  d0:	ed 91       	ld	r30, X+
+  d2:	fc 91       	ld	r31, X
+  d4:	9c 2f       	mov	r25, r28
+  d6:	90 95       	com	r25
+  d8:	90 83       	st	Z, r25
+        delay_loop();
+  da:	cd df       	rcall	.-102    	; 0x76 <_Z10delay_loopv>
+  dc:	cf 5f       	subi	r28, 0xFF	; 255
+}
+
+void shift(int p_old, int p_new)
+{
+    int i;
+    for (i = 1; i < 256; i++) {
+  de:	99 f7       	brne	.-26     	; 0xc6 <_Z5shiftii+0x22>
+        *brite[p_old] = i;
+        *brite[p_new] = 255 - i;
+        delay_loop();
+    }
+}
+  e0:	cf 91       	pop	r28
+  e2:	1f 91       	pop	r17
+  e4:	0f 91       	pop	r16
+  e6:	ff 90       	pop	r15
+  e8:	ef 90       	pop	r14
+  ea:	08 95       	ret
+
+000000ec <main>:
+
+
+int main(void)
+{
+    // Set relevant pins to output
+    DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB3 | 1 << PB4;
+  ec:	87 b3       	in	r24, 0x17	; 23
+  ee:	8b 61       	ori	r24, 0x1B	; 27
+  f0:	87 bb       	out	0x17, r24	; 23
+    
+    // Set Timer/Counter0 to fast PWM, inverting mode (255=off, 0=full on)
+    //     TC0 drives OC0A and OC0B directly
+    //     For some reason, non-inverting mode is never completely off
+    TCCR0A |= 0b11 << COM0A0 | 0b11 << COM0B0 | 0b11 << WGM00;
+  f2:	8a b5       	in	r24, 0x2a	; 42
+  f4:	83 6f       	ori	r24, 0xF3	; 243
+  f6:	8a bd       	out	0x2a, r24	; 42
+    
+    // Clock for TC0 divided by 64 for consistency with Arduino.  Necessary?
+    TCCR0B |= 0b11 << CS00;
+  f8:	83 b7       	in	r24, 0x33	; 51
+  fa:	83 60       	ori	r24, 0x03	; 3
+  fc:	83 bf       	out	0x33, r24	; 51
+    
+    // Set Timer/Counter1 to PWM inverting mode
+    //     TC1 drives OC1B directly and PB3 via interrupt routines
+    GTCCR |= 1 << PWM1B | 0b11 << COM1B0;
+  fe:	8c b5       	in	r24, 0x2c	; 44
+ 100:	80 67       	ori	r24, 0x70	; 112
+ 102:	8c bd       	out	0x2c, r24	; 44
+    
+    // Clock for TC1 divided by 64
+    TCCR1 |= 0b111 << CS10;
+ 104:	80 b7       	in	r24, 0x30	; 48
+ 106:	87 60       	ori	r24, 0x07	; 7
+ 108:	80 bf       	out	0x30, r24	; 48
+    
+    // PWM will not work on OC1B unless COM1Ai are also set (bug in ATtiny85)
+    TCCR1 |= 0b11 << COM1A0;
+ 10a:	80 b7       	in	r24, 0x30	; 48
+ 10c:	80 63       	ori	r24, 0x30	; 48
+ 10e:	80 bf       	out	0x30, r24	; 48
+    
+    // Enable interrupts on TC1 match to OCR1A and on TC1 overflow
+    TIMSK |= 1 << OCIE1A | 1 << TOIE1;
+ 110:	89 b7       	in	r24, 0x39	; 57
+ 112:	84 64       	ori	r24, 0x44	; 68
+ 114:	89 bf       	out	0x39, r24	; 57
+    sei();
+ 116:	78 94       	sei
+    
+    *brite[pin_t] = *brite[pin_r] = *brite[pin_b] = *brite[pin_l] = 255;
+ 118:	e0 e6       	ldi	r30, 0x60	; 96
+ 11a:	f0 e0       	ldi	r31, 0x00	; 0
+ 11c:	a4 81       	ldd	r26, Z+4	; 0x04
+ 11e:	b5 81       	ldd	r27, Z+5	; 0x05
+ 120:	c6 81       	ldd	r28, Z+6	; 0x06
+ 122:	d7 81       	ldd	r29, Z+7	; 0x07
+ 124:	40 81       	ld	r20, Z
+ 126:	51 81       	ldd	r21, Z+1	; 0x01
+ 128:	02 80       	ldd	r0, Z+2	; 0x02
+ 12a:	f3 81       	ldd	r31, Z+3	; 0x03
+ 12c:	e0 2d       	mov	r30, r0
+ 12e:	8f ef       	ldi	r24, 0xFF	; 255
+ 130:	80 83       	st	Z, r24
+ 132:	fa 01       	movw	r30, r20
+ 134:	80 83       	st	Z, r24
+ 136:	88 83       	st	Y, r24
+ 138:	8c 93       	st	X, r24
+    
+    while (1) {
+        shift(pin_t, pin_r);
+ 13a:	63 e0       	ldi	r22, 0x03	; 3
+ 13c:	70 e0       	ldi	r23, 0x00	; 0
+ 13e:	82 e0       	ldi	r24, 0x02	; 2
+ 140:	90 e0       	ldi	r25, 0x00	; 0
+ 142:	b0 df       	rcall	.-160    	; 0xa4 <_Z5shiftii>
+        shift(pin_r, pin_b);
+ 144:	60 e0       	ldi	r22, 0x00	; 0
+ 146:	70 e0       	ldi	r23, 0x00	; 0
+ 148:	83 e0       	ldi	r24, 0x03	; 3
+ 14a:	90 e0       	ldi	r25, 0x00	; 0
+ 14c:	ab df       	rcall	.-170    	; 0xa4 <_Z5shiftii>
+        shift(pin_b, pin_l);
+ 14e:	61 e0       	ldi	r22, 0x01	; 1
+ 150:	70 e0       	ldi	r23, 0x00	; 0
+ 152:	80 e0       	ldi	r24, 0x00	; 0
+ 154:	90 e0       	ldi	r25, 0x00	; 0
+ 156:	a6 df       	rcall	.-180    	; 0xa4 <_Z5shiftii>
+        shift(pin_l, pin_t);
+ 158:	62 e0       	ldi	r22, 0x02	; 2
+ 15a:	70 e0       	ldi	r23, 0x00	; 0
+ 15c:	81 e0       	ldi	r24, 0x01	; 1
+ 15e:	90 e0       	ldi	r25, 0x00	; 0
+ 160:	a1 df       	rcall	.-190    	; 0xa4 <_Z5shiftii>
+ 162:	eb cf       	rjmp	.-42     	; 0x13a <main+0x4e>
+
+00000164 <_exit>:
+ 164:	f8 94       	cli
+
+00000166 <__stop_program>:
+ 166:	ff cf       	rjmp	.-2      	; 0x166 <__stop_program>
